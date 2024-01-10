@@ -31,3 +31,4 @@ class Solution {
         // return nums[nums.length - 1] + (k - missingCount);
     }
 } // O(logn) time, O(1) space
+  // https://leetcode.com/problems/missing-element-in-sorted-array/description/
