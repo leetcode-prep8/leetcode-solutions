@@ -1,0 +1,33 @@
+class Solution {
+    int diameter;
+    private int findDiameter(HashMap<Integer, Set<Integer>> edges, int node) {
+        int maxPath1 = 0;
+        int maxPath2 = 0;
+        for (int neighbor : edges.get(node)) {
+            edges.get(neighbor).remove(node);
+            int path = findDiameter(edges, neighbor);
+            if (path > maxPath1) {
+                maxPath2 = maxPath1;
+                maxPath1 = path;
+            } else if (path > maxPath2) {
+                maxPath2 = path;
+            }
+            diameter = Math.max(diameter, maxPath1 + maxPath2);
+        }
+        return maxPath1 + 1;
+    }
+    public int treeDiameter(int[][] edges) {
+        if (edges.length == 0) return 0;
+        HashMap<Integer, Set<Integer>> edgeMap = new HashMap<>();
+        for (int[] edge : edges) {
+            edgeMap.putIfAbsent(edge[0], new HashSet<Integer>());
+            edgeMap.putIfAbsent(edge[1], new HashSet<Integer>());
+            edgeMap.get(edge[0]).add(edge[1]);
+            edgeMap.get(edge[1]).add(edge[0]);
+        }
+        diameter = 0;
+        findDiameter(edgeMap, edges[0][0]);
+        return diameter;        
+    }
+} // O(n) time, O(n) space
+https://leetcode.com/problems/tree-diameter/
