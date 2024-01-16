@@ -1,0 +1,24 @@
+class Solution { 
+    public String minRemoveToMakeValid(String s) {
+        // build new string. track openC, don't add closed if no corresponding open. after, remove extra opens
+        // (()   ())(  ))((
+        StringBuilder res = new StringBuilder();
+        int openC = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                openC++;
+            } else if (c == ')') {
+                if (openC > 0) {
+                    openC--;
+                } else continue;
+            } 
+            res.append(c);
+        }
+        for (int i = res.length() - 1; i >= 0; i--) {
+            if (res.charAt(i) == '(' && openC-- > 0) res.delete(i, i+1);
+        }
+        return res.toString();
+    }
+}
+// O(n) | O(n)

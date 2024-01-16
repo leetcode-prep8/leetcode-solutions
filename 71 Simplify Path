@@ -1,0 +1,21 @@
+class Solution {
+    public String simplifyPath(String path) {
+        if (path == null || path.length() == 0) return "/";
+        String[] list = path.split("/"); // or split
+        Stack<String> stack = new Stack<>();
+        for (String s : list) {
+            if (s.length() == 0) continue;
+            else if (s.equals("..")) {
+                if (!stack.isEmpty()) stack.pop();
+            } else if (s.equals(".")) continue;
+            else stack.push(s);
+        }
+        StringBuilder res = new StringBuilder();
+        if (stack.isEmpty()) return "/";
+        while (!stack.isEmpty()) { // or for(String s : stack), or ArrayDeque using pollFirst() pollLast() above, then poll()
+            res.insert(0, "/" + stack.pop());
+        }
+        return res.toString();
+    }
+
+}

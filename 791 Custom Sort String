@@ -1,0 +1,19 @@
+class Solution {
+    // valid strings non-null non-empty. non-order chars don't matter?'
+    public String customSortString(String order, String s) {
+        if (order == null || s == null || order.length() == 0 || s.length() == 0) return s;
+        int[] freq = new int[26];
+        for (char c : s.toCharArray()) freq[c - 'a']++;
+        StringBuilder res = new StringBuilder();
+        for (char c : order.toCharArray()) {
+            int count = freq[c - 'a'];
+            while (freq[c - 'a']-- > 0) res.append(c);
+        }
+        for (int i = 0; i < freq.length; i++) {
+            while(freq[i]-- > 0) res.append((char)(i + 'a'));
+        }
+        return res.toString();
+    }
+    // int[] freq of s, iter in order's order fill remaining O(n) O(1)
+    // "abbcde" "dba"  "dbbace"
+}

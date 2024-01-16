@@ -1,0 +1,25 @@
+class Solution {
+    public boolean validPalindrome(String s) {
+        if (s == null || s.length() == 0) return true;
+        int start = 0, e = s.length() - 1;
+        while (start < e) {
+            if (s.charAt(start) != s.charAt(e)) {
+                if (isPalindrome(s, start + 1, e) || isPalindrome(s, start, e - 1)) return true;
+                return false;
+            }
+            start++;
+            e--;
+        }
+        return true;
+    }
+    private boolean isPalindrome(String str, int s, int e) {
+        while (s < e) {
+            if (str.charAt(s) != str.charAt(e)) {
+                return false;
+            }
+            s++;
+            e--;
+        }
+        return true;
+    }
+}

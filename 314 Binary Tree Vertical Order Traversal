@@ -1,0 +1,40 @@
+class Solution {
+    HashMap<Integer, List<CustomNode>> map = new HashMap<>();
+    int minC, maxC;
+
+    class CustomNode implements Comparable<CustomNode> {
+        int val;
+        int row;
+        public CustomNode(int val, int row) {
+            this.val = val;
+            this.row = row;
+        }
+
+        public int compareTo(CustomNode n) {
+            return this.row - n.row;
+        }
+    }
+
+    private void traverse(TreeNode n, int col, int row) {
+        if (n == null) return;
+        List<CustomNode> list = map.getOrDefault(col, new ArrayList<CustomNode>());
+        list.add(new CustomNode(n.val, row));
+        map.putIfAbsent(col, list);
+        minC = Math.min(minC, col);
+        maxC = Math.max(maxC, col);
+        traverse(n.left, col - 1, row + 1);
+        traverse(n.right, col + 1, row + 1);
+    }
+
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+        traverse(root, 0, 0);
+        List<List<Integer>> list = new ArrayList<>();
+        if (root == null) return list;
+        for (int i = minC; i <= maxC; i++) {
+            List<CustomNode> currL = map.get(i);
+            Collections.sort(currL);
+            list.add(currL.stream().map(n -> n.val).collect(Collectors.toList()));
+        }
+        return list;
+    }
+}

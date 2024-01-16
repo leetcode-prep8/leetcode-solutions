@@ -1,0 +1,51 @@
+class Solution {
+    private int evaluate(int lastNum, int currNum, char op) {
+        if (op == '+' || op == '-') return op == '+' ? currNum : -currNum;
+        if (op == '*') return lastNum * currNum;
+        return lastNum / currNum;
+    }
+
+    public int calculate(String s) {
+        int res = 0, lastNum = 0, currNum = 0;
+        char op = '+';
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) currNum = currNum * 10 + (c - '0');
+            if (i == s.length() - 1 || (!Character.isDigit(c) && !Character.isWhitespace(c))) {
+                if (op == '+' || op == '-') {
+                    res += lastNum;
+                    lastNum = op == '+' ? currNum : -currNum;
+                } else if (op == '*') lastNum *= currNum;
+                else lastNum /= currNum;
+                op = c;
+                currNum = 0;
+            }
+        }
+        return res + lastNum;
+
+    }
+
+    // public int calculate(String s) { // Stack approach
+    //     int res = 0, lastNum = 0, currNum = 0;
+    //     char op = '+', nextOp;
+
+    //     Stack<Integer> stack = new Stack<>();
+    //     for (int i = 0; i < s.length(); i++) {
+    //         char c = s.charAt(i);
+    //         if (Character.isDigit(c)) {
+    //             currNum = currNum * 10 + (int) (c - '0');
+    //         }
+    //         if (i == s.length() - 1 || (!Character.isDigit(c) && !Character.isWhitespace(c))) {
+    //             if (op == '+' || op == '-') stack.push(op == '+' ? currNum : -currNum);
+    //             else if (op == '*') stack.push(currNum * stack.pop());
+    //             else stack.push(stack.pop() / currNum);
+    //             currNum = 0;
+    //             op = c;
+    //         }
+    //     }
+    //     while (!stack.isEmpty()) {
+    //         res += stack.pop();
+    //     }
+    //     return res;
+    // }
+}
